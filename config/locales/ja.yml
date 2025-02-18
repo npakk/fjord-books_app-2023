@@ -7,6 +7,14 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+    models:
+      book: 書籍
+    attributes:
+      book:
+        title: タイトル
+        memo: メモ
+        author: 著者
+        picture: 表紙
   date:
     abbr_day_names:
     - 日
@@ -183,10 +191,6 @@ ja:
       short: "%m/%d %H:%M"
     pm: 午後
   books:
-    title: タイトル
-    memo: メモ
-    author: 著者
-    picture: 表紙
     index:
       title: 書籍一覧
       show: この書籍を見る
