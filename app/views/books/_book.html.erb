@@ -1,6 +1,6 @@
 <div id="<%= dom_id book %>">
   <p>
-  <strong><%= Book.human_attribute_name(:title) %>:</strong>
+    <strong><%= Book.human_attribute_name(:title) %>:</strong>
     <%= book.title %>
   </p>
 
@@ -15,7 +15,7 @@
   </p>
 
   <p>
-  <strong><%= Book.human_attribute_name(:picture) %>:</strong>
+    <strong><%= Book.human_attribute_name(:picture) %>:</strong>
     <%= image_tag(book.picture_url) if book.picture.present? %>
   </p>
 
