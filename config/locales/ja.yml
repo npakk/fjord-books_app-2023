@@ -9,23 +9,18 @@ ja:
         memo: メモ
         author: 著者
         picture: 表紙
+  view:
+    show: "%{title}を見る"
+    back: "%{title}に戻る"
+    destroy: "%{title}を削除する"
+    notice:
+      create: "%{title}の新規作成に成功しました！"
+      update: "%{title}の編集に成功しました！"
+      destroy: "%{title}の削除に成功しました!"
   books:
     index:
       title: 書籍一覧
-      show: この書籍を見る
-      new: 書籍を登録する
-    show:
-      edit: この書籍を編集する
-      back: 書籍一覧に戻る
-      destroy: この書籍を削除する
-    edit:
-      title: 書籍の編集
-      show: この書籍を見る
-      back: 書籍一覧に戻る
     new:
       title: 書籍の新規作成
-      back: 書籍一覧に戻る
-    notice:
-      create: 書籍の新規作成に成功しました！
-      update: 書籍の編集に成功しました！
-      destroy: 書籍の削除に成功しました!
+    edit:
+      title: 書籍の編集
