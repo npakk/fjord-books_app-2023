@@ -33,4 +33,123 @@ Book.create!(
   picture: picture_file('erd.jpg')
 )
 
+Book.create!(
+  title: '#4',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#5',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#6',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#7',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#8',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#9',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#10',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#11',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#12',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#13',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#14',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#15',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#16',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#17',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#18',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#19',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
+Book.create!(
+  title: '#20',
+  memo: '',
+  author: '',
+  picture: nil
+)
+
 puts '初期データの投入が完了しました。' # rubocop:disable Rails/Output
