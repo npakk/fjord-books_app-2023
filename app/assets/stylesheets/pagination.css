@@ -1,0 +1,16 @@
+.pagination {
+  display: flex;
+  justify-content: left;
+
+  span {
+    text-align: center;
+    width: 2.2em;
+    :hover{
+      background-color: gainsboro;
+    }
+
+    a {
+      display: block;
+    }
+  }
+}
