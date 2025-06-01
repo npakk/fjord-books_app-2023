@@ -16,9 +16,6 @@
       <%= current_user.username %>
       <%= link_to t("users.registrations.edit.title", resource: User.model_name.human), edit_user_registration_path, class: "navbar-link" %> |
       <%= link_to t("users.sessions.destroy.sign_out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-link"  %>
-    <% else %>
-      <%= link_to t("users.registrations.new.sign_up"), new_user_registration_path, class: "navbar-link"  %> |
-      <%= link_to t("users.sessions.new.sign_in"), new_user_session_path, class: "navbar-link"  %>
     <% end %>
     </p>
     <p class="notice"><%= notice %></p>
