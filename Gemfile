@@ -74,7 +74,7 @@ group :development do
   gem 'rubocop-fjord', require: false
   gem 'rubocop-rails', require: false
 
-  gem "letter_opener_web", "~> 3.0"
+  gem 'letter_opener_web', '~> 3.0'
 end
 
 group :test do
@@ -86,6 +86,6 @@ end
 gem 'carrierwave'
 gem 'kaminari'
 
-gem "devise", "~> 4.9"
+gem 'devise', '~> 4.9'
 
-gem "devise-i18n", "~> 1.13"
+gem 'devise-i18n', '~> 1.13'
