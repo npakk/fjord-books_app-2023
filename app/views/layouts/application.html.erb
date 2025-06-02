@@ -14,6 +14,8 @@
     <p class="navbar-text float-right">
     <% if user_signed_in? %>
       <%= current_user.username %>
+      <%= link_to t("views.common.title_index", name: Book.model_name.human), books_path, class: "navbar-link" %> |
+      <%= link_to t("views.common.title_index", name: User.model_name.human), users_path, class: "navbar-link" %> |
       <%= link_to t("users.registrations.edit.title", resource: User.model_name.human), edit_user_registration_path, class: "navbar-link" %> |
       <%= link_to t("users.sessions.destroy.sign_out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-link"  %>
     <% end %>
