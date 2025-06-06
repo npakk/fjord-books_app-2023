@@ -21,25 +21,7 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autocomplete: "username" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :postcode %><br />
-    <%= f.text_field :postcode, autocomplete: "postal-code" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :address %><br />
-    <%= f.text_field :address, autocomplete: "street-address" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :biography %><br />
-    <%= f.text_field :biography %>
-  </div>
+  <%= render 'user_fields', f: f %>
 
   <div class="actions">
     <%= f.submit t('.sign_up') %>
