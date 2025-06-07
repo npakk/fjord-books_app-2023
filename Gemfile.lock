@@ -325,8 +325,8 @@ DEPENDENCIES
   capybara
   carrierwave
   debug
-  devise (~> 4.9)
-  devise-i18n (~> 1.13)
+  devise
+  devise-i18n
   erb_lint
   faker
   i18n_generators
