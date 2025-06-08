@@ -1,0 +1,8 @@
+<div id="comments" class="index-items">
+  <% @comments.includes(:user).each do |comment| %>
+    <div id="<%= dom_id comment %>">
+      <%= current_user_name(comment.user) %>
+      <%= comment.body %>
+    </div>
+  <% end %>
+</div>
