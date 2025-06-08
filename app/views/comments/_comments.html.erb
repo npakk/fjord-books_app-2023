@@ -2,6 +2,7 @@
   <% @comments.includes(:user).each do |comment| %>
     <div id="<%= dom_id comment %>">
       <%= current_user_name(comment.user) %>
+      <%= l comment.created_at, format: :datetime %>
       <%= comment.body %>
     </div>
   <% end %>
