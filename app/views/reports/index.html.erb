@@ -1,7 +1,7 @@
 <h1><%= t('views.common.title_index', name: i18n_pluralize(Report.model_name.human)) %></h1>
 
 <div id="reports" class="index-items">
-  <% @reports.each do |report| %>
+  <% @reports.includes(:user).each do |report| %>
     <div class="index-item">
       <%= render report %>
       <p>
