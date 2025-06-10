@@ -1,6 +1,6 @@
 <div id="comments" class="index-items">
-  <% if @comments.any? %>
-    <% @comments.includes(:user).each do |comment| %>
+  <% if comments.any? %>
+    <% comments.includes(:user).each do |comment| %>
       <div id="<%= dom_id comment %>">
         <%= current_user_name(comment.user) %>
         <%= l comment.created_at, format: :datetime %>
