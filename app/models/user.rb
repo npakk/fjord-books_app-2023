@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   def image_content_type
     extensions = %w[jpeg jpg gif png]
-    errors.add(:icon, :icon_extension, extensions: extensions.map(&:upcase).join('・')) unless icon.content_type.in?(extensions.map { |e| "image/#{e}" })
+    if icon.attached? && !icon.content_type.in?(extensions.map { |e| "image/#{e}" })
+      errors.add(:icon, :icon_extension, extensions: extensions.map(&:upcase).join('・'))
+    end
   end
 end
