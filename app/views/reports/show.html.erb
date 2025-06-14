@@ -4,8 +4,8 @@
   <%= render 'reports/report', report: @report %>
 </div>
 
-<%= render 'comments/form', commentable: @report, comment: @comment %>
 <%= render 'comments/comments', commentable: @report, comments: @comments %>
+<%= render 'comments/form', commentable: @report, comment: @comment %>
 
 <nav class="page-nav">
   <% if @report.user == current_user %>

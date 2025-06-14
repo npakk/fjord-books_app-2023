@@ -1,0 +1,31 @@
+.comments-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-edit {
+  display: flex;
+  list-style: none;
+  justify-content: space-evenly;
+  padding: 0;
+}
+
+.comment {
+  border-top: solid var(--global-bw) var(--global-bc);
+  padding: 1em 0;
+  max-width: var(--single-column-w);
+}
+
+.comment:first-child {
+  border-top: none;
+}
+
+.comment-body {
+  padding: 0 3em;
+}
+
+.comment-input {
+  background-color: #f9f9f9;
+  padding: 1em;
+}
