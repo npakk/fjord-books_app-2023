@@ -25,4 +25,10 @@ class ApplicationController < ActionController::Base
   def signed_in_root_path(_resource_or_scope)
     user_path(current_user)
   end
+
+  def ensure_user(resource)
+    return if resource.user == current_user
+
+    redirect_to reports_path, alert: t('errors.messages.not_authorized')
+  end
 end
