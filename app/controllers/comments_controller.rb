@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
   def edit; end
 
-  # POST /comments or /comments.json
+  # POST /comments
   def create
     @comment = @commentable.comments.build(comment_params)
     @comment.user = current_user
@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1 or /comments/1.json
+  # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
       redirect_to @commentable, notice: t('controllers.common.notice_update', name: Comment.model_name.human)
@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1 or /comments/1.json
+  # DELETE /comments/1
   def destroy
     @comment.destroy
 
