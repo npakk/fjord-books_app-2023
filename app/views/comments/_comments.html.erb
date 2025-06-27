@@ -1,0 +1,33 @@
+<div id="comments">
+  <% if comments.any? %>
+    <% comments.includes(:user).each do |comment| %>
+      <div id="<%= dom_id comment %>" class="comment">
+        <header class="comments-header">
+          <h3>
+            <%= current_user_name(comment.user) %>
+          </h3>
+          <%= time_tag comment.created_at, format: :datetime %>
+        </header>
+        <p class="comment-body">
+          <%= comment.body %>
+        </p>
+        <footer>
+          <ul class="comment-edit">
+            <% if comment.user == current_user %>
+              <li>
+                <%= link_to t('views.common.edit', name: Comment.model_name.human.downcase), edit_polymorphic_path([commentable, comment]) %>
+              </li>
+              <li>
+                <%= button_to t('views.common.destroy', name: Comment.model_name.human.downcase), polymorphic_path([commentable, comment]), method: :delete %>
+              </li>
+            <% end %>
+          </ul>
+        </footer>
+      </div>
+    <% end %>
+  <% else %>
+    <p>
+      <%= t('.no_comments') %>
+    </p>
+  <% end %>
+</div>
