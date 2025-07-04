@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 class ReportsController < ApplicationController
   before_action :set_report, only: %i[edit update destroy]
 
@@ -21,7 +23,21 @@ class ReportsController < ApplicationController
   def create
     @report = current_user.reports.new(report_params)
 
-    if @report.save
+    all_valid = true
+    Report.transaction do
+      all_valid &= @report.save
+      URI.extract(report_params[:content], ['http']).uniq.map do |url|
+        if (URI.parse(url).select(:host, :port) == ['localhost', 3000])
+          all_valid &= Mention.create(mention_id: @report.id, mentioned_id: URI.parse(url).path.split('/').last.to_i)
+        end
+      end
+
+      unless all_valid
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if all_valid
       redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
     else
       render :new, status: :unprocessable_entity
