@@ -1,0 +1,12 @@
+<% if (mentioned_reports = report.mentioned_reports.presence) %>
+  <div class="mentioned_reports-container">
+    <strong><%= t('.mentioned') %></strong>
+    <ul>
+      <% mentioned_reports.each do |mentioned_report| %>
+        <li>
+          <%= link_to mentioned_report.title, report_path(mentioned_report.id) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

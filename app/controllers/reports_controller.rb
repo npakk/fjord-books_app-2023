@@ -26,7 +26,7 @@ class ReportsController < ApplicationController
     all_valid = true
     Report.transaction do
       all_valid &= @report.save
-      URI.extract(report_params[:content], ['http']).uniq.map do |url|
+      URI.extract(report_params[:content], ['http']).uniq.each do |url|
         if (URI.parse(url).select(:host, :port) == ['localhost', 3000])
           all_valid &= Mention.create(mention_id: @report.id, mentioned_id: URI.parse(url).path.split('/').last.to_i)
         end
