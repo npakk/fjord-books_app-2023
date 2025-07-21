@@ -26,10 +26,8 @@ class ReportsController < ApplicationController
     all_valid = true
     Report.transaction do
       all_valid &= @report.save
-      URI.extract(report_params[:content], ['http']).uniq.each do |url|
-        if (URI.parse(url).select(:host, :port) == ['localhost', 3000])
-          all_valid &= Mention.create(mention_id: @report.id, mentioned_id: URI.parse(url).path.split('/').last.to_i)
-        end
+      mentioning_reports_ids(report_params[:content]).each do |report_id|
+        all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
       end
 
       unless all_valid
@@ -45,7 +43,28 @@ class ReportsController < ApplicationController
   end
 
   def update
-    if @report.update(report_params)
+    # 既存の言及先と新規の言及先のIDを集合演算の差をつかって削除するものと追加するものに分ける
+    old_mentions = @report.mentioning_reports.pluck(:id)
+    new_mentions = mentioning_reports_ids(report_params[:content])
+    destroy_mentions = old_mentions - new_mentions
+    create_mentions = new_mentions - old_mentions
+
+    all_valid = true
+    Report.transaction do
+      all_valid &= @report.update(report_params)
+      destroy_mentions.each do |report_id|
+        all_valid &= Mention.destroy_by(mention_id: @report.id, mentioned_id: report_id)
+      end
+      create_mentions.each do |report_id|
+        all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
+      end
+
+      unless all_valid
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if all_valid
       redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
     else
       render :edit, status: :unprocessable_entity
@@ -66,5 +85,13 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:report).permit(:title, :content)
+  end
+
+  def mentioning_reports_ids(content)
+    URI.extract(content, ['http']).uniq.map do |url|
+      if (URI.parse(url).select(:host, :port) == ['localhost', 3000])
+        URI.parse(url).path.split('/').last.to_i
+      end
+    end
   end
 end
