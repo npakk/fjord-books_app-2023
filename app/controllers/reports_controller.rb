@@ -84,11 +84,11 @@ class ReportsController < ApplicationController
   end
 
   def mentioning_reports_ids(content)
-    URI.extract(content, ['http']).uniq.map do |url|
+    URI.extract(content, %w[http https]).uniq.map do |url|
       next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
 
       # Pathが/reports/[:id]の形式ならidだけを取得する
-      report_id.to_i if URI.parse(url).path.match(%r{#{reports_path}/(\d+)$}) in [report_id]
+      Regexp.last_match(1).to_i if URI.parse(url).path.match(%r{#{reports_path}/(\d+)$})
     end
   end
 end
