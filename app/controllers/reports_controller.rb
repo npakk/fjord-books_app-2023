@@ -30,9 +30,7 @@ class ReportsController < ApplicationController
         all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
       end
 
-      unless all_valid
-        raise ActiveRecord::Rollback
-      end
+      raise ActiveRecord::Rollback unless all_valid
     end
 
     if all_valid
@@ -59,9 +57,7 @@ class ReportsController < ApplicationController
         all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
       end
 
-      unless all_valid
-        raise ActiveRecord::Rollback
-      end
+      raise ActiveRecord::Rollback unless all_valid
     end
 
     if all_valid
@@ -92,9 +88,7 @@ class ReportsController < ApplicationController
       next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
 
       # Pathが/reports/[:id]の形式ならidだけを取得する
-      if URI.parse(url).path.match(/#{reports_path}\/(\d+)$/) in [report_id]
-          report_id.to_i
-      end
+      report_id.to_i if URI.parse(url).path.match(%r{#{reports_path}/(\d+)$}) in [report_id]
     end
   end
 end
