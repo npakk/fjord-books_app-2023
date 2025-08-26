@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
   end
 
   def update
-    # 既存の言及先と新規の言及先のIDを集合演算の差をつかって削除するものと追加するものに分ける
+    # 既存の言及先と新規の言及先のIDを、集合演算の差をつかって削除するものと追加するものに分ける
     old_mentions = @report.mentioning_reports.pluck(:id)
     new_mentions = mentioning_reports_ids(report_params[:content])
     destroy_mentions = old_mentions - new_mentions
@@ -89,8 +89,11 @@ class ReportsController < ApplicationController
 
   def mentioning_reports_ids(content)
     URI.extract(content, ['http']).uniq.map do |url|
-      if (URI.parse(url).select(:host, :port) == ['localhost', 3000])
-        URI.parse(url).path.split('/').last.to_i
+      next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
+
+      # Pathが/reports/[:id]の形式ならidだけを取得する
+      if URI.parse(url).path.match(/#{reports_path}\/(\d+)$/) in [report_id]
+          report_id.to_i
       end
     end
   end
