@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
       next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
 
       # Pathが/reports/[:id]の形式ならidだけを取得する
-      Regexp.last_match(1).to_i if URI.parse(url).path.match(%r{#{reports_path}/(\d+)$})
+      Regexp.last_match(1).to_i if URI.parse(url).path =~ %r{#{reports_path}/(\d+)$}
     end
   end
 end
