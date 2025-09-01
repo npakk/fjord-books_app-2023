@@ -23,6 +23,6 @@ module ApplicationHelper
 
   def text_url_to_link(text)
     uri_reg = URI::DEFAULT_PARSER.make_regexp(%w[http https])
-    text.gsub(uri_reg) { %(<a href="#{Regexp.last_match(0)}">#{Regexp.last_match(0)}</a>) }
+    text.gsub(uri_reg) { link_to(nil, Regexp.last_match(0)) }
   end
 end
