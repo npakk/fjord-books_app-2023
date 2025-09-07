@@ -23,47 +23,29 @@ class ReportsController < ApplicationController
   def create
     @report = current_user.reports.new(report_params)
 
-    all_valid = true
-    Report.transaction do
-      all_valid &= @report.save
-      mentioning_reports_ids(report_params[:content]).each do |report_id|
-        all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
+    begin
+      Report.transaction do
+        @report.save!
+        mention_create!(report_params[:content])
       end
-
-      raise ActiveRecord::Rollback unless all_valid
-    end
-
-    if all_valid
-      redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
-    else
+    rescue
       render :new, status: :unprocessable_entity
+    else
+      redirect_to @report, notice: t('controllers.common.notice_create', name: Report.model_name.human)
     end
   end
 
   def update
-    # 既存の言及先と新規の言及先のIDを、集合演算の差をつかって削除するものと追加するものに分ける
-    old_mentions = @report.mentioning_reports.pluck(:id)
-    new_mentions = mentioning_reports_ids(report_params[:content])
-    destroy_mentions = old_mentions - new_mentions
-    create_mentions = new_mentions - old_mentions
-
-    all_valid = true
-    Report.transaction do
-      all_valid &= @report.update(report_params)
-      destroy_mentions.each do |report_id|
-        all_valid &= Mention.destroy_by(mention_id: @report.id, mentioned_id: report_id)
+    begin
+      Report.transaction do
+        @report.mention_relationships.each(&:destroy!)
+        @report.update!(report_params)
+        mention_create!(report_params[:content])
       end
-      create_mentions.each do |report_id|
-        all_valid &= Mention.create(mention_id: @report.id, mentioned_id: report_id)
-      end
-
-      raise ActiveRecord::Rollback unless all_valid
-    end
-
-    if all_valid
-      redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
-    else
+    rescue
       render :edit, status: :unprocessable_entity
+    else
+      redirect_to @report, notice: t('controllers.common.notice_update', name: Report.model_name.human)
     end
   end
 
@@ -83,12 +65,16 @@ class ReportsController < ApplicationController
     params.require(:report).permit(:title, :content)
   end
 
-  def mentioning_reports_ids(content)
-    URI.extract(content, %w[http https]).uniq.map do |url|
+  def mention_create!(content)
+    mentioning_reports_ids = URI.extract(content, %w[http https]).uniq.map do |url|
       next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
 
       # Pathが/reports/[:id]の形式ならidだけを取得する
       Regexp.last_match(1).to_i if URI.parse(url).path =~ %r{#{reports_path}/(\d+)$}
+    end
+
+    mentioning_reports_ids.each do |report_id|
+      Mention.create!(mention_id: @report.id, mentioned_id: report_id)
     end
   end
 end
