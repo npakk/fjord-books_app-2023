@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'uri'
-
 class ReportsController < ApplicationController
   before_action :set_report, only: %i[edit update destroy]
 
@@ -26,7 +24,7 @@ class ReportsController < ApplicationController
     begin
       Report.transaction do
         @report.save!
-        mention_create!(report_params[:content])
+        @report.mention_create!(report_params[:content])
       end
     rescue
       render :new, status: :unprocessable_entity
@@ -40,7 +38,7 @@ class ReportsController < ApplicationController
       Report.transaction do
         @report.mentions.each(&:destroy!)
         @report.update!(report_params)
-        mention_create!(report_params[:content])
+        @report.mention_create!(report_params[:content])
       end
     rescue
       render :edit, status: :unprocessable_entity
@@ -63,18 +61,5 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:report).permit(:title, :content)
-  end
-
-  def mention_create!(content)
-    mentioning_reports_ids = URI.extract(content, %w[http https]).uniq.map do |url|
-      next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
-
-      # Pathが/reports/[:id]の形式ならidだけを取得する
-      Regexp.last_match(1).to_i if URI.parse(url).path =~ %r{#{reports_path}/(\d+)$}
-    end
-
-    mentioning_reports_ids.each do |report_id|
-      Mention.create!(mention_id: @report.id, mentioned_id: report_id)
-    end
   end
 end
