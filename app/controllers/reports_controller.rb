@@ -36,7 +36,6 @@ class ReportsController < ApplicationController
   def update
     begin
       Report.transaction do
-        @report.mentions.each(&:destroy!)
         @report.update!(report_params)
         @report.mention_create!(report_params[:content])
       end

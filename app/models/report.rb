@@ -24,6 +24,8 @@ class Report < ApplicationRecord
   end
 
   def mention_create!(content)
+    self.mentions.each(&:destroy!)
+
     mentioning_reports_ids = URI.extract(content, %w[http https]).uniq.map do |url|
       next unless URI.parse(url).select(:host, :port) == ['localhost', 3000]
 
